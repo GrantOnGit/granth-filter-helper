@@ -11,12 +11,12 @@ These optional template packages can be added to provide ready made Blaze templa
 
 - Table (checkable / sortable)
 - Pagination
-- Filter - Dropdown
-- Filter - Date
-- Filter - Text Search
-- Filter - Checkbox
-- Filter - Switch / Toggle
-- Filter - Radios
+- Filter - Dropdown (coming soon)
+- Filter - Date (coming soon)
+- Filter - Text Search (coming soon)
+- Filter - Checkbox (coming soon)
+- Filter - Switch / Toggle (coming soon)
+- Filter - Radios (coming soon)
 
 #### granth:filter-helper-bootstrap4
 
@@ -30,10 +30,10 @@ Semantic ui formatted. You must include Semantic UI yourself. You can use [packa
 
 The following server utils compliment FilterHelper and can assist in creating super-DRY collections. Take a look at the following article for a walk through: [Article Link]
 
-#### granth:publish-with-count ####
+#### granth:publish-with-count (coming soon) ####
 
 Use Meteor.publishWithCount instead of Meteor.publish. This automatically creates the server method required for FilterHelper pagination.
 
-#### granth:paged-query ####
+#### granth:paged-query (coming soon) ####
 
 Easily create pageable queries.
