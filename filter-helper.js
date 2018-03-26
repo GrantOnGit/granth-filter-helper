@@ -237,7 +237,6 @@ export class FilterHelper {
     }
 
     setSorting(options) {
-        console.log("Set Sorting", options);
         const sort = {};
         Object.keys(options).forEach((key) => {
             if(options[key] !== 0) {
