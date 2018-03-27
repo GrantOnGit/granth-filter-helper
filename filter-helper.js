@@ -5,7 +5,7 @@ import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import { Mongo } from 'meteor/mongo';
-import { TableHelper } from './table-helper';
+import { TableHelper } from 'meteor/granth:table-helper';
 
 export class FilterHelper {
 
