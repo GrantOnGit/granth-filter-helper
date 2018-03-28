@@ -34,10 +34,6 @@ export class FilterHelper {
         this.page = new ReactiveVar(1);
 
         // Tables
-        //this.tables = {};
-        // this.reactive = new ReactiveDict();
-        // this.reactive.set("tables", {});
-
         this.tables = {};
     }
 
@@ -158,10 +154,6 @@ export class FilterHelper {
         return [];
     }
 
-    calculatePagination() {
-
-    }
-
     highlight(text, key, color="#21ba45") {
         if(typeof text === "undefined") {
             return "";
@@ -193,8 +185,6 @@ export class FilterHelper {
     }
 
     // #endregion
-
-    // #region Actions
 
     // Resets all filters to the initial state.
     resetFilters() {
@@ -228,12 +218,16 @@ export class FilterHelper {
         const query = (this.mapper === null) ? this.combined : this.mapper(this.combined);
         const options = {
             limit: this.perPage.get(),
-            skip: 0,
+            skip: this.perPage.get() * (this.page.get() - 1),
             sort: this.sort.get(),
         };
 
         console.log("Using Query", query, options);
         return this.collection.find(query, options);
+    }
+
+    highlighted() {
+        // Return filtered val.raw val.highlighted
     }
 
     setSorting(options) {
@@ -247,6 +241,8 @@ export class FilterHelper {
         this.sort.set(sort);
     }
     
+    // #region Pagination
+
     setPagination(options = null) {
         if(options !== null) {
             if(typeof options.perPage === "number") {
@@ -258,32 +254,46 @@ export class FilterHelper {
     }
 
     pagination() {
+        const count = this.count.get();
+        const perPage = this.perPage.get();
+        const pages = Math.ceil(count / perPage);
+        if(this.page.get() < 1 || this.page.get() > pages) {
+            this.page.set(1);
+        }
+        const page = this.page.get();
+        const pageArray = Array.from(new Array(pages), (val,index) => index + 1);
+        const hasNext = (page < Math.ceil(count / perPage));
+        const hasPrev = (page > 1);
+
         return {
-            count: this.count.get(),
-            page: 1,
-            pages: 5,
-            hasNext: true,
-            hasPrev: true,
-            perPage: function (limit = null) {
-                if(limit === null) {
-                    return this.perPage.get();
-                }
-                else {
-                    this.perPage.set(limit);
-                    return this.pagination();
-                }
+            count: count,
+            page: page,
+            pages: pages,
+            hasNext: hasNext,
+            hasPrev: hasPrev,
+            pageArray: pageArray,
+
+            setPerPage: function (limit) {
+                this.perPage.set(parseInt(limit));
             }.bind(this),
-            page: function (page = null) {
-                if(limit === null) {
-                    return this.page.get();
-                }
-                else {
-                    this.page.set(page);
-                    return this.pagination();
-                }
+
+            setPage: function(page) {
+                this.page.set(parseInt(page));
+            }.bind(this),
+
+            nextPage: function() {
+                if(page < pages) { this.page.set(page + 1); }
+            }.bind(this),
+
+            prevPage: function() {
+                if(page > 1) { this.page.set(page - 1); }
             }.bind(this),
         }
     }
+
+    // #endregion
+
+    // #region Tables
 
     addTable(fields = null, modify = null, tag = "default") {
         const table = new TableHelper(fields, modify);

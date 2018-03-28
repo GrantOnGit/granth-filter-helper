@@ -71,6 +71,11 @@ class FilterHelpersController {
                 }
             }
             
+            if(typeof workingTemplate === "undefined") {
+                console.log("could not find template. tag=<" + tag + ">");
+                return undefined;
+            }
+
             workingTemplate = workingTemplate.parent();
             count++;
         }
